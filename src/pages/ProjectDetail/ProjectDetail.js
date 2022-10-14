@@ -2,13 +2,13 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom";
 import Link from "../../components/Link/Link";
 import List from "../../components/List/List";
+import {Link as RouterLink} from "react-router-dom"
 
 function ProjectDetail({userName}) {
     const [loading, setLoading] = useState(true);
     const [project, setProject] = useState({});
     const {name} = useParams();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
+    
     const items = [
         {
             field: "Name",
@@ -18,7 +18,7 @@ function ProjectDetail({userName}) {
             field: "Description",
             value: project.description
         }, {
-            field: "Link",
+            field: "Repo Link",
             value: <Link url={project.html_url} title={project.html_url}/>
         }, {
             field: "Created at",
@@ -26,6 +26,12 @@ function ProjectDetail({userName}) {
         }, {
             field: "Updated at",
             value: project.updated_at
+        }, {
+            field: "Live version",
+            value: <Link url={project.homepage} title={project.homepage}> </Link>
+        }, {
+            field: "Topics",
+            value: String(project.topics)
         }
     ]
 
@@ -39,6 +45,7 @@ function ProjectDetail({userName}) {
             if (result) {
                 setProject(result);
                 setLoading(false);
+                console.log(result)
             }
         }
 
@@ -72,6 +79,8 @@ function ProjectDetail({userName}) {
         </div>
     
     ) }
+
+    <RouterLink to={'/projects'} > Back to all projects </RouterLink>
 
     </div>
   )

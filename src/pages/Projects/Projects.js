@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react"
 import List from "../../components/List/List";
-import Link from "../../components/Link/Link";
 import {Link as RouterLink} from 'react-router-dom';
 
 
 function Projects({userName}) {
     const [loading, setLoading] = useState(true);
-    const [projects, setProjects] = useState({});
+    const [projects, setProjects] = useState([]);
     const [profile, setProfile] = useState({});
 
     useEffect( () => {
@@ -54,10 +53,18 @@ function Projects({userName}) {
                 />
                     </div>
                     <div className="col-10">
-                         <List items={projects.map( project => ( {
-               field: project.name,
-                     value: <RouterLink to={`/project/${project.name}`} > {`${window.location.origin}/project/${project.name}`} </RouterLink>
-                 }))}/>
+                        <List items={projects.map( project => {
+
+                            if (typeof project.homepage !== "string") {
+                                return ""
+                            }
+
+                            return ({ 
+                                    field: project.name,
+                                    value: <RouterLink to={`/project/${project.name}`} > {`${window.location.origin}/project/${project.name}`} </RouterLink>
+                                })
+                        }  // 
+                        )}/>
                     </div>
                 </div>
             </div>
